@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    16:05:39 03/21/2022 
+// Create Date:    16:32:48 04/08/2022 
 // Design Name: 
 // Module Name:    COMPARE 
 // Project Name: 
@@ -18,11 +18,11 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module COMPARE(lt,gt,eq,data1,data2);
-input[15:0] data1, data2;
-output lt,gt,eq;
-assign lt=data1<data2;
-assign gt=data1>data2;
-assign eq=data1==data2;
+module COMPARE(lt, gt, eq, data1, data2);
+input [15:0] data1, data2;
+output lt, gt, eq;
+ 
+assign lt = data1 < data2;
+assign gt = data1 > data2;
+assign eq = data1 == data2;
 endmodule
-

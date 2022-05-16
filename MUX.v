@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    16:06:47 03/21/2022 
+// Create Date:    16:30:18 04/08/2022 
 // Design Name: 
 // Module Name:    MUX 
 // Project Name: 
@@ -17,11 +17,12 @@
 // Revision 0.01 - File Created
 // Additional Comments: 
 //
-////////////////////////////////////////////////////////////////////////////////
-module MUX(out, in0, in1,sel);
-input [15:0] in0,in1;
-input sel;
-output [15:0] out;
-assign out= sel? in1:in0;
+//////////////////////////////////////////////////////////////////////////////////
+module MUX (out, in0, in1, sel);
+ input [15:0] in0, in1;
+ input sel;
+ output [15:0] out;
+ 
+ assign out = sel ? in1 : in0;
 endmodule
 

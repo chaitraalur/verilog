@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    16:34:19 04/08/2022 
+// Create Date:    10:37:03 03/16/2022 
 // Design Name: 
 // Module Name:    controller 
 // Project Name: 
@@ -18,68 +18,36 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module controller (ldA, ldB, sel1, sel2, sel_in, done, clk, lt, gt, eq, start);
- input clk, lt, gt, eq, start;
- output reg ldA, ldB, sel1, sel2, sel_in, done;
- reg [2:0] state;
- parameter S0=3'b000, S1=3'b001, S2=3'b010, S3=3'b011, S4=3'b100, S5=3'b101;
- always @ (posedge clk)
-  begin
-    case (state)
-	   S0: if (start) state <= S1;
-		S2: state <= S2;
-		S2: #2 if (eq) state <= S5;
-		    else if (lt) state <= S3;
-			 else if (gt) state <= S4;
-		S3: #2 if (eq) state <= S5;
-          else if (lt) state <= S3;
-          else if (gt) state <= S4;
-      S4: #2 if (eq) state <= S5;
-          else if (lt) state <= S3;
-          else if (gt) state <= S4;
-		S5: state <= S5;
-      default: state <= S0;
-endcase
-end
-always @ (state)
-begin
-case (state)
-  S0:  begin sel_in = 1; ldA = 1; ldB = 0; done = 0; end
-  S1:  begin sel_in = 1; ldA = 0; ldB = 1; end
-  S2:  if (eq) done = 1;
-       else if (lt) begin 
-		                sel1 = 1; sel2 = 0; sel_in = 0;
-							 #1 ldA = 0; ldB = 1; 
-						end
-		 else if (gt) begin 
-		                sel1 = 0; sel2 = 1; sel_in = 0;
-							 #1 ldA = 1; ldB = 0; 
-						end
-	S3:  if (eq) done = 1;
-       else if (lt) begin 
-		                sel1 = 0; sel2 = 1; sel_in = 0;
-							 #1 ldA = 0; ldB = 1; 
-						end
-		 else if (gt) begin 
-		                sel1 = 0; sel2 = 1; sel_in = 0;
-							 #1 ldA = 1; ldB = 0; 
-						end
-	S4:  if (eq) done = 1;
-       else if (lt) begin 
-		                sel1 = 1; sel2 = 0; sel_in = 0;
-							 #1 ldA = 0; ldB = 1; 
-						end
-		 else if (gt) begin 
-		                sel1 = 0; sel2 = 1; sel_in = 0;
-							 #1 ldA = 1; ldB = 0; 
-						end
-	S5:  begin 
-	       done = 1; sel1 = 0; sel2 = 1; sel_in = 0;
-			 ldB = 0;
-			 end
-	 default: begin ldA = 0; ldB = 0; end
-  endcase
-  end
- 
-endmodule
+module controller (lda, ldb, ldp, clrp, decb, done, clk, eqz, start);
+    output reg lda, ldb, ldp, clrp, decb, done;
+    input clk;
+    input eqz;
+    input start;
+	 reg [2:0] state;
+	 parameter s0=3'b000, s1=3'b001, s2=3'b010, s3=3'b011, s4=3'b100;
+	 always @ (posedge clk)
+	 begin
+	 case (state)
+	 s0:  if (start) state <= s1;
+	 s1:  state <= s2;
+	 s2:   state <= s3;
+	 s3:    #2 if (eqz) state <= s4;
+	 s4:   state <= s4;
+	 default: state <= s0;
+	 endcase
+	 end
+	 always @(state)
+	 begin
+	 case (state)
+	 s0:   begin #1 lda = 0; ldb = 0;  ldp = 0; clrp = 0; decb = 0; end
+	 s1:   begin #1 lda = 1; end
+	 s2:   begin #1 lda = 0; ldb = 1; clrp = 1; end
+	 s3:   begin #1 ldb = 0; ldp = 1; clrp = 0; decb = 1; end
+	 s4:   begin #1 done= 1; ldb = 0; ldp = 0; decb = 0; end
+	 default: begin #1 lda = 0; ldb = 0; ldp = 0; clrp = 0; decb = 0; end
+	 endcase
+	 end
+	 endmodule
+    
+
 

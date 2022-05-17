@@ -3,7 +3,7 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    16:31:43 04/08/2022 
+// Create Date:    15:37:41 03/21/2022 
 // Design Name: 
 // Module Name:    SUB 
 // Project Name: 
@@ -19,10 +19,10 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module SUB(out, in1, in2);
-input [15:0] in1, in2;
-output reg [15:0] out;
+    input [15:0] int1, int2;
+	 output reg [15:0] out;
+	 always @ (*)
+	 out = in1 -in2;
 
-always @(*)
-  out = in1 - in2;
-endmodule  
 
+endmodule
